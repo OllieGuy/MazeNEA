@@ -1,0 +1,12 @@
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze NEA.csprojAssemblyReference.cache
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze_NEA.Properties.Resources.resources
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze NEA.csproj.GenerateResource.cache
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze NEA.csproj.CoreCompileInputs.cache
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\bin\Debug\Maze NEA.exe.config
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\bin\Debug\Maze NEA.exe
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\bin\Debug\Maze NEA.pdb
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze_NEA.Form1.resources
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze NEA.exe
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze NEA.pdb
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze_NEA.SettingsTab.resources
+C:\Users\Ollie\source\repos\Maze NEA\Maze NEA\obj\Debug\Maze_NEA.MenuForm.resources
