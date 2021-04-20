@@ -18,7 +18,7 @@ namespace Maze_NEA
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MazeCreation.DrawNodeConnections();
+            MazeCreation.DrawNodeConnections(); // creates the maze that will be interpreted
             Form1 form = new Form1();
             Application.Run(form);
             //MenuForm form = new MenuForm();

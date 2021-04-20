@@ -17,12 +17,13 @@ namespace Maze_NEA
         public Form1()
         {
             mazeGrid = new GridPictureBox(this);
+            mazeGrid.InterpretGrid();
             nav = new Navigation();
             InitializeComponent();
         }
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            mazeGrid.InterpretGrid();
+            //mazeGrid.InterpretGrid();
             nav.AStarSolve();
             mazeGrid.Draw(e.Graphics);
             mazeGrid.SetBoxDimensions();

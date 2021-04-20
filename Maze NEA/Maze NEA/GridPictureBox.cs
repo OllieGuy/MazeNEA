@@ -12,7 +12,7 @@ namespace Maze_NEA
 {
     public class GridPictureBox
     {
-        int size = 16;
+        int size = 16; // default size, changed when the size of the window is changed
         Form1 form;
         bool firstDraw = true;
         public bool[,] InterpretGrid()
@@ -20,14 +20,14 @@ namespace Maze_NEA
             bool[,] InterpretedCellGrid = new bool[(2 * Grid.gridSizeX) + 1, (2 * Grid.gridSizeY) + 1];
             for (int i = 0; i < (2 * Grid.gridSizeX) + 1; i++)
             {
-                for (int j = 0; j < (2 * Grid.gridSizeY) + 1; j++)
+                for (int j = 0; j < (2 * Grid.gridSizeY) + 1; j++) // for all the coordinates it can be
                 {
-                    if (i % 2 == 0 && j % 2 == 0 && i != 0 && j != 0)
+                    if (i % 2 == 0 && j % 2 == 0 && i != 0 && j != 0) // if the i and j are even and they are not 0
                     {
                         InterpretedCellGrid[i - 1, j - 1] = true;
                         for (int x = 0; x <= 3; x++)
                         {
-                            if (Grid.coordinates[(i - 1) / 2, (j - 1) / 2].walls[x] == false)
+                            if (Grid.coordinates[(i - 1) / 2, (j - 1) / 2].walls[x] == false) // if the current wall is broken, clear it in the interpreted grid
                             {
                                 switch (x)
                                 {
@@ -59,11 +59,7 @@ namespace Maze_NEA
             form = FormPass;
         }
 
-        public GridPictureBox()
-        {
-        }
-
-        public void SetBoxDimensions()
+        public void SetBoxDimensions() // resizes the size of the boxes to be in line with the size of the window
         {
             if (form.Width / Grid.gridSizeX < form.Height / Grid.gridSizeY)
             {
@@ -83,10 +79,10 @@ namespace Maze_NEA
         }*/
         
 
-        public void Draw(Graphics g)
+        public void Draw(Graphics g) // draws the grid with the player, end and bot position
         {
             Brush brush;
-            /*Brush playerBrush;
+            Brush playerBrush;
             Brush endBrush;
             if (firstDraw)
             {
@@ -107,12 +103,12 @@ namespace Maze_NEA
             g.FillRectangle(playerBrush, Navigation.currentPlayerPosX * (size), Navigation.currentPlayerPosY * (size), size, size);
             endBrush = Brushes.Blue;
             g.FillRectangle(endBrush, Navigation.endX * (size), Navigation.endY * (size), size, size);
-            if (Navigation.currentPlayerPosX == Navigation.endX && Navigation.currentPlayerPosY == Navigation.endY)
+            if (Navigation.currentPlayerPosX == Navigation.endX && Navigation.currentPlayerPosY == Navigation.endY) // if the end of the maze has been reached
             {
                 endBrush = Brushes.Gold;
                 g.FillRectangle(endBrush, Navigation.endX * (size), Navigation.endY * (size), size, size);
-            }*/
-            List<Node> solvedList = Navigation.solvedList;
+            }
+            /*List<Node> solvedList = Navigation.solvedList;
             Console.WriteLine(solvedList.Count());
             for (int i = 0; i < (2 * Grid.gridSizeX + 1); i++)
             {
@@ -128,7 +124,7 @@ namespace Maze_NEA
                         g.FillRectangle(brush, i * (size), j * (size), size, size);
                     }
                 }
-            }
+            }*/
         }
     }
 }

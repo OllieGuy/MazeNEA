@@ -10,13 +10,13 @@ namespace Maze_NEA
 {
     public class Navigation //: Form1
     {
-        protected static int currentPlayerPosX = createX("start");
-        protected static int currentPlayerPosY = createY("start");
-        protected static int endX = createX("end");
-        protected static int endY = createY("end");
+        public static int currentPlayerPosX = createX("start");
+        public static int currentPlayerPosY = createY("start");
+        public static int endX = createX("end");
+        public static int endY = createY("end");
         public static List<Node> solvedList = new List<Node>();
         public GridPictureBox gridPictureBox;
-        public static int createX(string startOrEnd)
+        public static int createX(string startOrEnd) // exists to create the random x values, taking if it is creating a start or end point as an argument
         {
             int x = -1;
             if (startOrEnd == "start")
@@ -44,7 +44,7 @@ namespace Maze_NEA
                     return 2 * Grid.gridSizeX - 1;
                 }
             }
-            return 1;
+            return 1; // returns the default start
         }
         public static int createY(string startOrEnd)
         {
@@ -75,11 +75,11 @@ namespace Maze_NEA
                     return 2 * Grid.gridSizeY - 1;
                 }
             }
-            return 1;
+            return 1; // returns the default start
         }
         public void Movement(Keys k)
         {
-            switch (k)
+            switch (k) // looks at whick key has been pressed and interprets that into where the player will go with the inbuilt collision detection in the interpreted grid
             {
                 case Keys.Up:
                     if (Grid.InterpretedGrid[currentPlayerPosX, currentPlayerPosY - 1])
@@ -105,7 +105,7 @@ namespace Maze_NEA
                         currentPlayerPosX = currentPlayerPosX + 1;
                     }
                     break;
-                case Keys.Escape:
+                case Keys.Escape: // pause/end button
                     MenuForm menu = new MenuForm();
                     menu.ShowDialog();
                     break;
@@ -113,7 +113,7 @@ namespace Maze_NEA
                     break;
             }
         }
-        private List<Node> returnOpenCells(Node currentPos)
+        private List<Node> returnOpenCells(Node currentPos) // returns the cells that are able to be traversed to next
         {
             List<Node> returnList = new List<Node>();
             if (Grid.InterpretedGrid[currentPos.x, currentPos.y + 1])
@@ -134,7 +134,7 @@ namespace Maze_NEA
             }
             return returnList;
         }
-        public List<Node> AStarSolve()
+        public List<Node> AStarSolve() // the main solving algorithm that will return a list that will be moved along by the bot
         {
             List<Node> openList = new List<Node>();
             List<Node> closedList = new List<Node>();
@@ -200,7 +200,7 @@ namespace Maze_NEA
             return (closedList);
         }
     }
-    public class Node : Navigation
+    public class Node : Navigation // the nodes that the A* algorithm can traverse to are created here
     {
         public int x;
         public int y;
