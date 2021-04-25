@@ -14,27 +14,24 @@ namespace Maze_NEA
     {
         protected GridPictureBox mazeGrid;
         protected Navigation nav;
-        public Form1()
+        public Form1() // creates the maze grid and solves the maze
         {
             mazeGrid = new GridPictureBox(this);
             mazeGrid.InterpretGrid();
             nav = new Navigation();
             InitializeComponent();
         }
-        private void PictureBox1_Paint(object sender, PaintEventArgs e)
+        private void PictureBox1_Paint(object sender, PaintEventArgs e) // draws the maze for the user to see
         {
-            //mazeGrid.InterpretGrid();
-            nav.AStarSolve();
             mazeGrid.Draw(e.Graphics);
             mazeGrid.SetBoxDimensions();
         }
-        private void Form1_Resize(object sender, EventArgs e)
+        private void Form1_Resize(object sender, EventArgs e) // when the form has been resized, set the box dimensions to be in line with this
         {
             mazeGrid.SetBoxDimensions();
         }
-        private void Form1_KeyPress(object sender, KeyEventArgs e)
+        private void Form1_KeyPress(object sender, KeyEventArgs e) // when a key is pressed, pass it to Navigation, which will perform the necessary operations with this information
         {
-            //Navigation moved = new Navigation();
             nav.Movement(e.KeyData);
         }
     }

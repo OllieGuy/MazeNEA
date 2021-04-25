@@ -5,26 +5,29 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Maze_NEA
 {
     class PlayerOptions // options that can be edited within settings
     {
-        public static bool randomStart = false;
-        public static bool randomEnd = false;
-        public static int botDifficulty = 5;
+        public static bool randomStart = false; // default false
+        public static bool randomEnd = false; // default false
+        public static double botDifficulty = 5; // default 5
     }
-    class Grid // the basic information about the grid
+    public class Grid // the basic information about the grid
     {
-        public static int gridSizeX = 7;
+        public static int gridSizeX = 7; // defaults to 7 - a middle of the road size between simplicity in looks and complexity to solve in a very short period of time
         public static int gridSizeY = 7;
-        public static Cell[,] coordinates = new Cell[Grid.gridSizeX, Grid.gridSizeY];
+        public static List<Node> solvedList = new List<Node>(); // the pathfinding output
+        public static int botMoves = 0; // to be used to track the bot's location
+        public static Stopwatch startTime = Stopwatch.StartNew(); // to be used in conjunction with the bot difficulty to move the bot through the maze at an acceptable pace
+        protected static Cell[,] coordinates = new Cell[Grid.gridSizeX, Grid.gridSizeY]; // the grid tha t
         public static bool[,] InterpretedGrid;
-        //public List<Node> AStarSolved = ;
     }
-    class Cell // the class that is used as the intermediary translator between the initial grid creation and the interpreted grid
+    public class Cell // the class that is used as the intermediary translator between the initial grid creation and the interpreted grid
     {
-        public bool[] walls;
+        public bool[] walls; // broken down to create empty cells in the interpreted grid
         public int getX;
         public int getY;
         public Cell(int xCord, int yCord)
@@ -34,7 +37,7 @@ namespace Maze_NEA
             getY = yCord;
         }
     }
-    class MazeCreation
+    class MazeCreation : Grid
     {
         public static void DrawNodeConnections() // initial maze creation
         {
@@ -65,19 +68,19 @@ namespace Maze_NEA
                     switch (directionsRand[cur]) // checks which direction it is trying to go, makes sure it can travel there then does and breaks the appropriate wall of the cell
                     {
                         case "up":
-                            if (currentCell.getY + 1 < Grid.gridSizeY == true)
+                            if (currentCell.getY + 1 < Grid.gridSizeY == true) // if the new co-ordinate is within the bounds of the grid
                             {
-                                if (visitedCells[(currentCell.getX), (currentCell.getY) + 1] == false)
+                                if (visitedCells[(currentCell.getX), (currentCell.getY) + 1] == false) // if the cell has not been visited
                                 {
-                                    currentCell.walls[0] = false;
-                                    currentCell = new Cell(currentCell.getX, currentCell.getY + 1);
-                                    moveComplete = true;
+                                    currentCell.walls[0] = false; // remove the appropriate wall
+                                    currentCell = new Cell(currentCell.getX, currentCell.getY + 1); // set the current to the new cell
+                                    moveComplete = true; // complete the move
                                     break;
                                 }
                             }
-                            cur++;
+                            cur++; // if either of the if statements if failed, increase cur, incrementing through directions
                             break;
-                        case "down":
+                        case "down": // works the same as "up"
                             if (currentCell.getY - 1 >= 0 == true)
                             {
                                 if (visitedCells[(currentCell.getX), (currentCell.getY) - 1] == false)
@@ -90,7 +93,7 @@ namespace Maze_NEA
                             }
                             cur++;
                             break;
-                        case "left":
+                        case "left": // works the same as "up"
                             if (currentCell.getX - 1 >= 0 == true)
                             {
                                 if (visitedCells[(currentCell.getX) - 1, (currentCell.getY)] == false)
@@ -103,7 +106,7 @@ namespace Maze_NEA
                             }
                             cur++;
                             break;
-                        case "right":
+                        case "right": // works the same as "up"
                             if (currentCell.getX + 1 < Grid.gridSizeX)
                             {
                                 if (visitedCells[(currentCell.getX) + 1, (currentCell.getY)] == false)

@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Maze_NEA
 {
-    public class GridPictureBox
+    public class GridPictureBox : Grid
     {
         int size = 16; // default size, changed when the size of the window is changed
         Form1 form;
         bool firstDraw = true;
-        public bool[,] InterpretGrid()
+        public bool[,] InterpretGrid() // interprets the grid created into one that may be displayed - very crucial to the program despite only being called once
         {
             bool[,] InterpretedCellGrid = new bool[(2 * Grid.gridSizeX) + 1, (2 * Grid.gridSizeY) + 1];
             for (int i = 0; i < (2 * Grid.gridSizeX) + 1; i++)
@@ -56,12 +58,12 @@ namespace Maze_NEA
         }
         public GridPictureBox(Form1 FormPass)
         {
-            form = FormPass;
+            form = FormPass; // takes in the form so it can look at the width and height
         }
 
         public void SetBoxDimensions() // resizes the size of the boxes to be in line with the size of the window
         {
-            if (form.Width / Grid.gridSizeX < form.Height / Grid.gridSizeY)
+            if (form.Width / Grid.gridSizeX < form.Height / Grid.gridSizeY) // if the height is greater than the width of the resized window
             {
                 size = (form.Width / (2 * Grid.gridSizeX + (Convert.ToInt32(Math.Round(0.3 * Grid.gridSizeX))))) - 1;
             }
@@ -69,28 +71,21 @@ namespace Maze_NEA
             {
                 size = (form.Height / (2 * Grid.gridSizeY + (Convert.ToInt32(Math.Round(0.3 * Grid.gridSizeY))))) - 1;
             }
-            form.Refresh();
+            form.Refresh(); // redraw with new dimensions
         }
-        /*public void CreatePath()
-        {
-            
-            Navigation nav = new Navigation();
-            List<Node> solvedList = nav.AStarSolve();
-        }*/
-        
-
         public void Draw(Graphics g) // draws the grid with the player, end and bot position
         {
-            Brush brush;
+            Brush brush; // creates the brushes to draw positions
             Brush playerBrush;
             Brush endBrush;
+            Brush botBrush;
             if (firstDraw)
             {
                 for (int i = 0; i < (2 * Grid.gridSizeX + 1); i++)
                 {
                     for (int j = 0; j < (2 * Grid.gridSizeY + 1); j++)
                     {
-                        brush = Brushes.Black;
+                        brush = Brushes.Black; // wall colour by default, when the cell is clear then it is set to white
                         if (Grid.InterpretedGrid[i, j])
                         {
                             brush = Brushes.White;
@@ -99,6 +94,19 @@ namespace Maze_NEA
                     }
                 }
             }
+            Navigation nav = new Navigation();
+            List<Node> solvedList = nav.AStarSolve(); // gets the fastest way to the end of the maze
+            Grid.solvedList = solvedList;
+            botBrush = Brushes.Red;
+            if (Math.Floor(Grid.startTime.Elapsed.TotalSeconds) > ((11-PlayerOptions.botDifficulty)/10)*Grid.botMoves && Grid.botMoves < solvedList.Count()-1) // checks the time and then moves the bot in accordance with the bot difficulty decided by the player in settings
+            {
+                Grid.botMoves++; // move the bot along the solved list
+            }
+            /*for (int i = 0; i<solvedList.Count();i++) // code that will display the full bot path
+            {
+                g.FillRectangle(botBrush, solvedList[i].x * (size), solvedList[i].y * (size), size, size);
+            }*/
+            g.FillRectangle(botBrush, solvedList[Grid.botMoves].x * (size), solvedList[Grid.botMoves].y * (size), size, size);
             playerBrush = Brushes.Green;
             g.FillRectangle(playerBrush, Navigation.currentPlayerPosX * (size), Navigation.currentPlayerPosY * (size), size, size);
             endBrush = Brushes.Blue;
@@ -107,24 +115,20 @@ namespace Maze_NEA
             {
                 endBrush = Brushes.Gold;
                 g.FillRectangle(endBrush, Navigation.endX * (size), Navigation.endY * (size), size, size);
+                Thread.Sleep(250);
+                MessageBox.Show("You found the end in " + Math.Floor(Grid.startTime.Elapsed.TotalSeconds) + " seconds!"); // displays to the user they have reached the end and exits the program after a short delay
+                Thread.Sleep(1000);
+                Application.Exit();
             }
-            /*List<Node> solvedList = Navigation.solvedList;
-            Console.WriteLine(solvedList.Count());
-            for (int i = 0; i < (2 * Grid.gridSizeX + 1); i++)
+            if (solvedList[Grid.botMoves].x == Navigation.endX && solvedList[Grid.botMoves].y == Navigation.endY) // if the player loses
             {
-                for (int j = 0; j < (2 * Grid.gridSizeY + 1); j++)
-                {
-                    for (int k = 0; k < solvedList.Count(); k++)
-                    {
-                        brush = Brushes.Red;
-                        if (solvedList[k].x == i && solvedList[k].y == j)
-                        {
-                            brush = Brushes.Orange;
-                        }
-                        g.FillRectangle(brush, i * (size), j * (size), size, size);
-                    }
-                }
-            }*/
+                endBrush = Brushes.Orange;
+                g.FillRectangle(endBrush, Navigation.endX * (size), Navigation.endY * (size), size, size);
+                Thread.Sleep(250);
+                MessageBox.Show("You lost!"); // displays to the user they have lost and exits the program after a short delay
+                Thread.Sleep(1000);
+                Application.Exit();
+            }
         }
     }
 }

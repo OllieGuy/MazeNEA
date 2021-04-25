@@ -234,7 +234,6 @@
             this.Controls.Add(this.SubmitX);
             this.Name = "SettingsTab";
             this.Text = "Settings";
-            this.Load += new System.EventHandler(this.SettingsTab_Load);
             ((System.ComponentModel.ISupportInitialize)(this.BotDifficulty)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

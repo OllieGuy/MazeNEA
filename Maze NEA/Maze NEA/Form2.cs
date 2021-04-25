@@ -17,24 +17,24 @@ namespace Maze_NEA
             InitializeComponent();
         }
 
-        private void PlayButton_Click(object sender, EventArgs e)
+        private void PlayButton_Click(object sender, EventArgs e) // click on the play button
         {
-            MazeCreation.DrawNodeConnections();
+            MazeCreation.DrawNodeConnections(); // creates the maze that will be interpreted
             Form1 mainMaze = new Form1();
-            this.Hide();
+            this.Hide(); // hide the menu when the play button is pressed
             mainMaze.ShowDialog();
         }
 
-        private void SettingsButton_Click(object sender, EventArgs e)
+        private void SettingsButton_Click(object sender, EventArgs e) // click on the settings button
         {
             SettingsTab settings = new SettingsTab();
-            this.Hide();
-            settings.ShowDialog();
+            this.Hide(); // hide the menu when the settings button is pressed
+            settings.ShowDialog(); // show the settings
         }
 
-        private void QuitButton_Click(object sender, EventArgs e)
+        private void QuitButton_Click(object sender, EventArgs e) // click on the quit button
         {
-            Application.Exit();
+            Application.Exit(); // exit the whole app
         }
     }
 }
